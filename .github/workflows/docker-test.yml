@@ -1,0 +1,61 @@
+name: Docker Test
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "support_assistant/**"
+      - ".github/workflows/docker-test.yml"
+
+jobs:
+  docker-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t zepto-support-assistant \
+            -f support_assistant/Dockerfile .
+
+      - name: Run container
+        run: |
+          docker run -d \
+            --name zepto-support \
+            -p 7860:7860 \
+            zepto-support-assistant
+
+      - name: Wait for API
+        run: |
+          for i in {1..30}; do
+            if curl -fs http://127.0.0.1:7860/ > /dev/null; then
+              echo "API is ready"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "API did not start"
+          docker logs zepto-support
+          exit 1
+
+      - name: Test policy question
+        run: |
+          curl -f \
+            -X POST http://127.0.0.1:7860/ask \
+            -H "Content-Type: application/json" \
+            -d '{"query":"What is the delivery fee?"}'
+
+      - name: Test general question
+        run: |
+          curl -f \
+            -X POST http://127.0.0.1:7860/ask \
+            -H "Content-Type: application/json" \
+            -d '{"query":"What is the capital of India?"}'
+
+      - name: Show container logs
+        if: always()
+        run: |
+          docker logs zepto-support
