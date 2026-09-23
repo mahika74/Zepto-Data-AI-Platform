@@ -6,7 +6,7 @@ The project combines **data engineering, data analytics, machine learning, retri
 
 ---
 
-## 📌 Project Overview
+## 📌 Project Overview 
 
 | Module | Focus | Technologies |
 |---|---|---|
