@@ -514,7 +514,7 @@ POST /ask
 
 ```json
 {
-  "question": "What is the delivery fee?"
+  "query": "What is the delivery fee?"
 }
 ```
 
@@ -534,7 +534,7 @@ Example:
 
 ```json
 {
-  "question": "What is the capital of India?"
+  "query": "What is the capital of India?"
 }
 ```
 
