@@ -186,7 +186,7 @@ The endpoint accepts a user question and returns a structured response.
 
 ```json
 {
-  "question": "What is the delivery fee?"
+  "query": "What is the delivery fee?"
 }
 ```
 
@@ -211,7 +211,9 @@ For a general question outside the supported Zepto policy domain, the assistant 
 ### Policy Question
 
 ```text
-What is the delivery fee?
+{
+  "query": "What is the delivery fee?"
+}
 ```
 
 The system:
@@ -225,7 +227,9 @@ The system:
 ### General Question
 
 ```text
-What is the capital of India?
+{
+  "query": "What is the capital of India?"
+}
 ```
 
 The system recognizes that the question is outside the supported policy domain and returns a controlled response instead of searching the Zepto policy documents.
