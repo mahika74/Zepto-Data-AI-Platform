@@ -30,4 +30,5 @@ def root():
     response_model=SupportResponse
 )
 def ask(request: AskRequest):
+
     return ask_question(request.query)
